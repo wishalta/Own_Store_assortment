@@ -8,7 +8,7 @@ class barbora_item():
 
     def insert_data(self):
         self.db = open_db()
-        query = (f"INSERT INTO `start_info` (`id`, `title`, `quantity`) VALUES (%s, %s, %s)")
+        query = (f"INSERT INTO `product_info`(`id`, `product_name`, `seller`) VALUE (%s, %s, %s)")
         self.db.conn.cursor().execute(query, (0, self.title, self.size))
         self.db.conn.commit()
         self.db.close()
@@ -16,4 +16,4 @@ class barbora_item():
     def fill(self):
         bs = barbora_search(self.driver)
         self.title = bs.search_title()
-        self.size = bs.search_size()
+        self.size = bs.search_seller()
