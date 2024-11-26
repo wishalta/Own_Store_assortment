@@ -12,7 +12,7 @@ def initGathering():
 
 def Execute_gathering():
     driver, wait = initGathering()
-    barbora = barbora_shop(driver, "https://www.barbora.lt/bakaleja/kruopos/grikiai")
+    barbora = barbora_shop(driver, "https://barbora.lt/bakaleja/kruopos/grikiai")
     barbora.functions_activation()
 
 Execute_gathering()
