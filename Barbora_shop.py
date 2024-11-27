@@ -38,7 +38,7 @@ class barbora_shop():
 
     def each_data_collect(self, hrefs):
         for link in hrefs:
-            print(link)
+            # print(link)
             self.driver.get(link)
             item = barbora_item(self.driver)
             item.fill()
