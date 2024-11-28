@@ -14,7 +14,9 @@ class barbora_shop():
     def functions_activation(self):
         self.cookies_accept()
         links = self.groats_url_gathering()
+        # suki cikla pro kateogirjas
         hrefs = self.products_url_gathering(links)
+        print(hrefs)
         self.each_data_collect(hrefs)
 
 
@@ -56,21 +58,22 @@ class barbora_shop():
 
     def products_url_gathering(self, links):
         hrefs = []
-        counter = 0
         for link in links:
+            counter = 0
+
             self.driver.get(link)
-            # for i in link:
-            counter += 1
-            self.driver.get(f'{link}?page={counter}')
-            item = self.driver.find_element(By.XPATH, '//*[@id="category-page-results-placeholder"]/div/ul')
-            tag = item.find_elements(By.TAG_NAME, 'li')
-            print(len(tag))
-            if len(tag) == 0:
-                break
-            for a in tag:
-                href = a.find_element(By.TAG_NAME, 'a').get_attribute("href")
-                hrefs.append(href)
-            # time.sleep(500)
+            for i in range(100):
+                counter += 1
+                self.driver.get(f'{link}?page={counter}')
+                item = self.driver.find_element(By.XPATH, '//*[@id="category-page-results-placeholder"]/div/ul')
+                tag = item.find_elements(By.TAG_NAME, 'li')
+                print(len(tag))
+                if len(tag) == 0:
+                    break
+                for a in tag:
+                    href = a.find_element(By.TAG_NAME, 'a').get_attribute("href")
+                    hrefs.append(href)
+                # time.sleep(500)
         return hrefs
 
     def each_data_collect(self, hrefs):
