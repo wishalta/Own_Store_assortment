@@ -13,7 +13,8 @@ class barbora_shop():
 
     def functions_activation(self):
         self.cookies_accept()
-        hrefs = self.products_url_gathering()
+        links = self.groats_url_gathering()
+        hrefs = self.products_url_gathering(links)
         self.each_data_collect(hrefs)
 
 
@@ -21,10 +22,46 @@ class barbora_shop():
         self.driver.get(self.url)
         self.driver.find_element(By.XPATH, '//*[@id="CybotCookiebotDialogBodyLevelButtonLevelOptinDeclineAll"]').click()
 
-    def products_url_gathering(self):
+    def groats_url_gathering(self):
+        # time.sleep(100)
+        # links = []
+        # for x in range(1):
+        #     item = self.driver.find_element(By. CLASS_NAME, f'b-category-children--item')
+        #     elements =  item.find_elements(By.CLASS_NAME, 'b-category-children')
+        #     print(elements)
+        #     for something in elements   :
+        #         categories = something.find_elements(By. TAG_NAME, 'li')
+        #         print(f'sukasi')
+        #         print(categories)
+        #         for y in categories:
+        #             link = y.find_element(By.TAG_NAME, 'a').get_attribute("href")
+        #             links.append(link)
+        #             print(f'cia:{links}')
+        #     return links
+
+        links = []
+        for x in range(1):
+            # item = self.driver.find_element(By. CLASS_NAME, f'b-category-children--item')
+            elements =  self.driver.find_elements(By.CLASS_NAME, 'b-category-children--li')
+            print(elements)
+            # for something in elements   :
+            #     categories = something.find_elements(By. TAG_NAME, 'a')
+            #     print(f'sukasi')
+            #     print(categories)
+            for y in elements:
+                link = y.find_element(By.TAG_NAME, 'a').get_attribute("href")
+                links.append(link)
+                print(f'cia:{links}')
+        return links
+
+    def products_url_gathering(self, links):
         hrefs = []
-        for i in range(1, 20):
-            self.driver.get(f'{self.url}?page={i}')
+        counter = 0
+        for link in links:
+            self.driver.get(link)
+            # for i in link:
+            counter += 1
+            self.driver.get(f'{link}?page={counter}')
             item = self.driver.find_element(By.XPATH, '//*[@id="category-page-results-placeholder"]/div/ul')
             tag = item.find_elements(By.TAG_NAME, 'li')
             print(len(tag))
@@ -33,7 +70,7 @@ class barbora_shop():
             for a in tag:
                 href = a.find_element(By.TAG_NAME, 'a').get_attribute("href")
                 hrefs.append(href)
-                # time.sleep(500)
+            # time.sleep(500)
         return hrefs
 
     def each_data_collect(self, hrefs):
